@@ -17,5 +17,75 @@ NULL
 #' @export
 url_parse <- function(url) .Call(wrap__url_parse, url)
 
+#' Get Path from URL
+#' @param url character vector of urls
+#' @return a vector of characters
+#' @rdname get_url_elements
+#' @export
+get_scheme <- function(url) .Call(wrap__get_scheme, url)
+
+#' @rdname get_url_elements
+#' @export
+get_host <- function(url) .Call(wrap__get_host, url)
+
+#' @rdname get_url_elements
+#' @export
+get_port <- function(url) .Call(wrap__get_port, url)
+
+#' @rdname get_url_elements
+#' @export
+get_query <- function(url) .Call(wrap__get_query, url)
+
+#' @rdname get_url_elements
+#' @export
+get_path <- function(url) .Call(wrap__get_path, url)
+
+#' @rdname get_url_elements
+#' @export
+get_fragment <- function(url) .Call(wrap__get_fragment, url)
+
+#' @rdname get_url_elements
+#' @export
+get_username <- function(url) .Call(wrap__get_username, url)
+
+#' @rdname get_url_elements
+#' @export
+get_password <- function(url) .Call(wrap__get_password, url)
+
+#' Set URL elements
+#' @param url character vector of urls
+#' @return a vector of characters
+#' @rdname set_url_elements
+#' @export
+set_scheme <- function(url, scheme) .Call(wrap__set_scheme, url, scheme)
+
+#' @rdname set_url_elements
+#' @export
+set_host <- function(url, host) .Call(wrap__set_host, url, host)
+
+#' @rdname set_url_elements
+#' @export
+set_port <- function(url, port) .Call(wrap__set_port, url, port)
+
+#' @rdname set_url_elements
+#' @export
+set_path <- function(url, path) .Call(wrap__set_path, url, path)
+
+#' @rdname set_url_elements
+#' @export
+set_query <- function(url, query) .Call(wrap__set_query, url, query)
+
+#' @rdname set_url_elements
+#' @export
+set_fragment <- function(url, fragment) .Call(wrap__set_fragment, url, fragment)
+
+#' @rdname set_url_elements
+#' @export
+set_username <- function(url, username) .Call(wrap__set_username, url, username)
+
+#' @rdname set_url_elements
+#' @export
+set_password <- function(url, password) .Call(wrap__set_password, url, password)
+
 
 # nolint end
