@@ -1,0 +1,56 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# weburl
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`{weburl}`wraps the [Rust crate url](https://crates.io/crates/url). This package is under development.
+
+## Installation
+
+You can install the development version of weburl like so:
+
+``` r
+if (!requireNamespace("remotes")) install.packages("remotes")
+
+remotes::install_github("dyfanjones/weburl")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(weburl)
+## basic example code
+
+urls <- c(
+  "/",
+  "//google.com",
+  "file:///",
+  "http://google.com/",
+  "http://google.com/path",
+  "http://google.com/path?a=1&b=2",
+  "http://google.com:80/path?a=1&b=2",
+  "http://google.com:80/path?a=1&b=2#frag",
+  "http://google.com:80/path?a=1&b=2&c=%7B1%7B2%7D3%7D#frag",
+  "http://user@google.com:80/path?a=1&b=2",
+  "http://user:pass@google.com:80/path?a=1&b=2",
+  "svn+ssh://my.svn.server/repo/trunk"
+)
+weburl::url_parse(urls)
+```
