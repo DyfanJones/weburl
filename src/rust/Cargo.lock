@@ -3,11 +3,18 @@
 version = 3
 
 [[package]]
+name = "either"
+version = "1.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a47c1c47d2f5964e29c61246e81db715514cd532db6b5116a25ea3c03d6780a2"
+
+[[package]]
 name = "extendr-api"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c7d55a0174c4df17c467fb59b3f836bec31d1af6d56c4182cfdf34a62d1553a4"
 dependencies = [
+ "either",
  "extendr-macros",
  "libR-sys",
  "once_cell",
@@ -42,6 +49,15 @@ checksum = "634d9b1461af396cad843f47fdba5597a4f9e6ddd4bfb6ff5d85028c25cb12f6"
 dependencies = [
  "unicode-bidi",
  "unicode-normalization",
+]
+
+[[package]]
+name = "itertools"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
 ]
 
 [[package]]
@@ -149,5 +165,6 @@ name = "weburl"
 version = "0.1.0"
 dependencies = [
  "extendr-api",
+ "itertools",
  "url",
 ]

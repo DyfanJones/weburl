@@ -5,9 +5,10 @@ version = '0.1.0'
 edition = '2021'
 
 [lib]
-crate-type = [ 'staticlib' ]
+crate-type = ['staticlib']
 name = 'weburl'
 
 [dependencies]
-extendr-api = '*'
+extendr-api = { version = "*", features = ["either"] }
+itertools = "0.12.1"
 url = "2.5.0"

@@ -1,4 +1,5 @@
 use extendr_api::prelude::*;
+use itertools::Either;
 use url::Url;
 
 /// Get Path from URL
@@ -300,24 +301,52 @@ fn set_path(url: Strings, path: &str) -> Strings {
 
 /// @rdname set_url_elements
 /// @export
-#[extendr]
-fn set_query(url: Strings, query: &str) -> Strings {
+#[extendr(use_try_from = true)]
+fn set_query(url: Strings, query: Either<List, Strings>) -> Strings {
     url.into_iter()
         .map(|urli| {
-            if urli.is_na() | query.is_na() {
+            if urli.is_na() {
                 urli.clone()
             } else {
-                let url_update = Url::parse(urli);
-                match url_update {
-                    Ok(mut u) => {
-                        let _result = u.set_query(Some(query));
-                        Rstr::from(u.as_str())
-                    }
-                    Err(_) => urli.clone(),
+                match &query {
+                    Either::Left(l) => url_query_list(urli, l.clone()),
+                    Either::Right(s) => url_query_str(urli, s.clone()),
                 }
             }
         })
         .collect::<Strings>()
+}
+
+fn url_query_list(urli: &Rstr, query: List) -> Rstr {
+    if query.is_empty() {
+        urli.clone()
+    } else {
+        let build_query: Vec<_> = query
+            .iter()
+            .map(|xi| (xi.0, xi.1.as_str().unwrap()))
+            .collect();
+        let url_update = Url::parse_with_params(urli, &build_query);
+        match url_update {
+            Ok(u) => Rstr::from(u.as_str()),
+            Err(_) => urli.clone(),
+        }
+    }
+}
+
+fn url_query_str(urli: &Rstr, query: Strings) -> Rstr {
+    let url_update = Url::parse(urli);
+    match url_update {
+        Ok(mut u) => {
+            for i in 0..query.len() {
+                let queryi = &query[i];
+                if !queryi.is_na() {
+                    let _result = u.set_query(Some(queryi));
+                }
+            }
+            Rstr::from(u.as_str())
+        }
+        Err(_) => urli.clone(),
+    }
 }
 
 /// @rdname set_url_elements
@@ -371,7 +400,7 @@ fn set_password(url: Strings, password: &str) -> Strings {
     url.into_iter()
         .map(|urli| {
             if urli.is_na() | password.is_na() {
-                Rstr::na()
+                urli.clone()
             } else {
                 let url_update = Url::parse(urli);
                 match url_update {
@@ -385,6 +414,26 @@ fn set_password(url: Strings, password: &str) -> Strings {
         })
         .collect::<Strings>()
 }
+
+// #[extendr]
+// fn url_encode(url: Strings) -> Strings {
+//     url.into_iter()
+//         .map(|urli| {
+//             if urli.is_na() {
+//                 urli.clone()
+//             } else {
+//                 let url_update = Url::parse(urli);
+//                 match url_update {
+//                     Ok(u) => {
+//                         u.serialize_internal();
+//                         Rstr::from(u.as_str())
+//                     }
+//                     Err(_) => urli.clone(),
+//                 }
+//             }
+//         })
+//         .collect::<Strings>()
+// }
 
 // Macro to generate exports.
 // This ensures exported functions are registered with R.
@@ -408,4 +457,5 @@ extendr_module! {
     fn set_fragment;
     fn set_username;
     fn set_password;
+    // fn url_encode;
 }

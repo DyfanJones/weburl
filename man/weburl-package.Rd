@@ -4,11 +4,11 @@
 \name{weburl-package}
 \alias{weburl}
 \alias{weburl-package}
-\title{weburl: What the Package Does (One Line, Title Case)}
+\title{weburl: Parse Urls}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Dyfan Jones \email{dyfan.r.jones@gmail.com}
 
 }
