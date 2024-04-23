@@ -79,7 +79,7 @@ Set Url elements
 set_scheme(urls, "https")
 set_host(urls, "helloworld")
 set_port(urls, 8080)
-set_query(urls, "foo=bar")
+set_query(urls, list("foo" = "bar=yo"))
 set_path(urls, "path/to/somewhere")
 set_fragment(urls, "cell=4,1-6,2")
 set_username(urls, "foo")
