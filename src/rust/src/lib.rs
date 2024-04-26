@@ -2,10 +2,23 @@ use extendr_api::prelude::*;
 use itertools::Either;
 use url::Url;
 
-/// Get Path from URL
+/// Get URL elements
 /// @param url character vector of urls
 /// @return a vector of characters
-/// @rdname get_url_elements
+/// @name get_url_elements
+/// @examples
+/// library(weburl)
+///
+/// url <- "https://user:pass@example.com:1234/foo/bar?baz#quux"
+///
+/// get_scheme(url)
+/// get_host(url)
+/// get_port(url)
+/// get_path(url)
+/// get_query(url)
+/// get_fragment(url)
+/// get_username(url)
+/// get_password(url)
 /// @export
 #[extendr]
 fn get_scheme(url: Strings) -> Strings {
@@ -160,6 +173,12 @@ fn get_password(url: Strings) -> Strings {
 /// Parse url
 /// @param url character vector of urls
 /// @return a data.frame consisting of the columns scheme, host, port, path, query and fragment.
+/// @examples
+/// library(weburl)
+///
+/// url <- "https://user:pass@example.com:1234/foo/bar?baz#quux"
+///
+/// url_parse(url)
 /// @export
 #[extendr]
 fn url_parse(url: Strings) -> Robj {
@@ -209,6 +228,28 @@ impl From<Url> for ParseUrl {
 
 /// Set URL elements
 /// @param url character vector of urls
+/// @param scheme character
+/// @param host character
+/// @param port integer
+/// @param path character vector
+/// @param query named list
+/// @param fragment character
+/// @param username character
+/// @param password character
+/// @examples
+/// library(weburl)
+///
+/// url <- "https://example.com"
+///
+/// set_scheme(url, "http")
+/// set_host(url, "dummy.com")
+/// set_port(url, 1234)
+/// set_path(url, c("foo", "bar"))
+/// set_query(url, list("baz" = "zar"))
+/// set_fragment(url, "quux")
+/// set_username(url, "user")
+/// set_password(url, "pass")
+///
 /// @return a vector of characters
 /// @rdname set_url_elements
 /// @export
@@ -280,16 +321,20 @@ fn set_port(url: Strings, port: i32) -> Strings {
 /// @rdname set_url_elements
 /// @export
 #[extendr]
-fn set_path(url: Strings, path: &str) -> Strings {
+fn set_path(url: Strings, path: Strings) -> Strings {
+    let paths = path.to_vec();
     url.into_iter()
         .map(|urli| {
-            if urli.is_na() | path.is_na() {
+            if urli.is_na() {
                 urli.clone()
             } else {
                 let url_update = Url::parse(urli);
                 match url_update {
                     Ok(mut u) => {
-                        let _result = u.set_path(path);
+                        u.path_segments_mut()
+                            .map_err(|_| "cannot be base")
+                            .unwrap()
+                            .extend(&paths);
                         Rstr::from(u.as_str())
                     }
                     Err(_) => urli.clone(),
@@ -415,25 +460,32 @@ fn set_password(url: Strings, password: &str) -> Strings {
         .collect::<Strings>()
 }
 
-// #[extendr]
-// fn url_encode(url: Strings) -> Strings {
-//     url.into_iter()
-//         .map(|urli| {
-//             if urli.is_na() {
-//                 urli.clone()
-//             } else {
-//                 let url_update = Url::parse(urli);
-//                 match url_update {
-//                     Ok(u) => {
-//                         u.serialize_internal();
-//                         Rstr::from(u.as_str())
-//                     }
-//                     Err(_) => urli.clone(),
-//                 }
-//             }
-//         })
-//         .collect::<Strings>()
-// }
+/// Encode Url
+/// @param url character vector of urls
+/// @return a vector of characters
+/// @examples
+/// library(weburl)
+///
+/// url <- "https:www.google.com/dummy=path yo"
+///
+/// url_encode(url)
+/// @export
+#[extendr]
+fn url_encode(url: Strings) -> Strings {
+    url.into_iter()
+        .map(|urli| {
+            if urli.is_na() {
+                urli.clone()
+            } else {
+                let url_update = Url::parse(urli);
+                match url_update {
+                    Ok(u) => Rstr::from(u.as_str()),
+                    Err(_) => Rstr::na(),
+                }
+            }
+        })
+        .collect::<Strings>()
+}
 
 // Macro to generate exports.
 // This ensures exported functions are registered with R.
@@ -457,5 +509,5 @@ extendr_module! {
     fn set_fragment;
     fn set_username;
     fn set_password;
-    // fn url_encode;
+    fn url_encode;
 }

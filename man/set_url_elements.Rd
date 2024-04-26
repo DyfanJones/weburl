@@ -29,10 +29,41 @@ set_password(url, password)
 }
 \arguments{
 \item{url}{character vector of urls}
+
+\item{scheme}{character}
+
+\item{host}{character}
+
+\item{port}{integer}
+
+\item{path}{character vector}
+
+\item{query}{named list}
+
+\item{fragment}{character}
+
+\item{username}{character}
+
+\item{password}{character}
 }
 \value{
 a vector of characters
 }
 \description{
 Set URL elements
+}
+\examples{
+library(weburl)
+
+url <- "https://example.com"
+
+set_scheme(url, "http")
+set_host(url, "dummy.com")
+set_port(url, 1234)
+set_path(url, c("foo", "bar"))
+set_query(url, list("baz" = "zar"))
+set_fragment(url, "quux")
+set_username(url, "user")
+set_password(url, "pass")
+
 }

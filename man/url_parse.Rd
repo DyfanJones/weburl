@@ -15,3 +15,10 @@ a data.frame consisting of the columns scheme, host, port, path, query and fragm
 \description{
 Parse url
 }
+\examples{
+library(weburl)
+
+url <- "https://user:pass@example.com:1234/foo/bar?baz#quux"
+
+url_parse(url)
+}
