@@ -60,8 +60,7 @@ Parse all Urls into a data.frame
 url_parse(urls)
 ```
 
-Get Url elements
-
+Get Url elements:
 ```{r get_example}
 get_scheme(urls)
 get_host(urls)
@@ -73,15 +72,34 @@ get_username(urls)
 get_password(urls)
 ```
 
-Set Url elements
-
+Set Url elements:
 ```{r set example}
 set_scheme(urls, "https")
 set_host(urls, "helloworld")
 set_port(urls, 8080)
 set_query(urls, list("foo" = "bar=yo"))
-set_path(urls, "path/to/somewhere")
+set_path(urls, c("path", "to", "somewhere"))
 set_fragment(urls, "cell=4,1-6,2")
 set_username(urls, "foo")
 set_password(urls, "bar")
 ```
+
+Building Url by piping:
+```{r piping example}
+url <- "http://example.com"
+
+set_scheme(url, "https") |>
+  set_port(1234) |>
+  set_path(c("foo", "bar")) |>
+  set_query("baz") |>
+  set_fragment("quux") |>
+  set_username("user") |>
+  set_password("pass")
+```
+
+Url encoding:
+```{r encode example}
+url_encode("https://example.com/?country=español")
+```
+
+

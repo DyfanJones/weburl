@@ -76,7 +76,7 @@ url_parse(urls)
 #> 13              <NA>
 ```
 
-Get Url elements
+Get Url elements:
 
 ``` r
 get_scheme(urls)
@@ -112,7 +112,7 @@ get_password(urls)
 #> [11] "pass" NA     NA
 ```
 
-Set Url elements
+Set Url elements:
 
 ``` r
 set_scheme(urls, "https")
@@ -171,19 +171,19 @@ set_query(urls, list("foo" = "bar=yo"))
 #> [11] "http://user:pass@google.com:8000/path?a=1&b=2&foo=bar%3Dyo"             
 #> [12] "svn+ssh://my.svn.server/repo/trunk?foo=bar%3Dyo"                        
 #> [13] "https://google.com:8080/?foo=bar%3Dyo"
-set_path(urls, "path/to/somewhere")
-#>  [1] "/"                                                                      
-#>  [2] "//google.com"                                                           
-#>  [3] "file:///path/to/somewhere"                                              
-#>  [4] "http://google.com/path/to/somewhere"                                    
-#>  [5] "http://google.com/path/to/somewhere"                                    
-#>  [6] "http://google.com/path/to/somewhere?a=1&b=2"                            
-#>  [7] "http://google.com:1234/path/to/somewhere?a=1&b=2"                       
-#>  [8] "http://google.com:8080/path/to/somewhere?a=1&b=2#frag"                  
-#>  [9] "http://google.com:8080/path/to/somewhere?a=1&b=2&c=%7B1%7B2%7D3%7D#frag"
-#> [10] "http://user@google.com/path/to/somewhere?a=1&b=2"                       
-#> [11] "http://user:pass@google.com:8000/path/to/somewhere?a=1&b=2"             
-#> [12] "svn+ssh://my.svn.server/path/to/somewhere"                              
+set_path(urls, c("path", "to", "somewhere"))
+#>  [1] "/"                                                                           
+#>  [2] "//google.com"                                                                
+#>  [3] "file:///path/to/somewhere"                                                   
+#>  [4] "http://google.com/path/to/somewhere"                                         
+#>  [5] "http://google.com/path/path/to/somewhere"                                    
+#>  [6] "http://google.com/path/path/to/somewhere?a=1&b=2"                            
+#>  [7] "http://google.com:1234/path/path/to/somewhere?a=1&b=2"                       
+#>  [8] "http://google.com:8080/path/path/to/somewhere?a=1&b=2#frag"                  
+#>  [9] "http://google.com:8080/path/path/to/somewhere?a=1&b=2&c=%7B1%7B2%7D3%7D#frag"
+#> [10] "http://user@google.com/path/path/to/somewhere?a=1&b=2"                       
+#> [11] "http://user:pass@google.com:8000/path/path/to/somewhere?a=1&b=2"             
+#> [12] "svn+ssh://my.svn.server/repo/trunk/path/to/somewhere"                        
 #> [13] "https://google.com:8080/path/to/somewhere"
 set_fragment(urls, "cell=4,1-6,2")
 #>  [1] "/"                                                                 
@@ -227,4 +227,26 @@ set_password(urls, "bar")
 #> [11] "http://user:bar@google.com:8000/path?a=1&b=2"                   
 #> [12] "svn+ssh://:bar@my.svn.server/repo/trunk"                        
 #> [13] "https://:bar@google.com:8080/"
+```
+
+Building Url by piping:
+
+``` r
+url <- "http://example.com"
+
+set_scheme(url, "https") |>
+  set_port(1234) |>
+  set_path(c("foo", "bar")) |>
+  set_query("baz") |>
+  set_fragment("quux") |>
+  set_username("user") |>
+  set_password("pass")
+#> [1] "https://user:pass@example.com:1234/foo/bar?baz#quux"
+```
+
+Url encoding:
+
+``` r
+url_encode("https://example.com/?country=español")
+#> [1] "https://example.com/?country=espa%C3%B1ol"
 ```
