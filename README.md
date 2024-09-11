@@ -4,6 +4,8 @@
 # weburl
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/DyfanJones/weburl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DyfanJones/weburl/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `{weburl}`wraps the [Rust crate url](https://crates.io/crates/url). This
