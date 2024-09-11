@@ -346,7 +346,7 @@ fn set_path(url: Strings, path: Strings) -> Strings {
 
 /// @rdname set_url_elements
 /// @export
-#[extendr(use_try_from = true)]
+#[extendr]
 fn set_query(url: Strings, query: Either<List, Strings>) -> Strings {
     url.into_iter()
         .map(|urli| {

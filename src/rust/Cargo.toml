@@ -9,6 +9,6 @@ crate-type = ['staticlib']
 name = 'weburl'
 
 [dependencies]
-extendr-api = { version = "*", features = ["either"] }
+extendr-api = { version = "0.7.1", features = ["either"] }
 itertools = "0.12.1"
 url = "2.5.0"

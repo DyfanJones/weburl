@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+src/rust/vendor
+.DS_Store
