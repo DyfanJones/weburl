@@ -6,6 +6,12 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/DyfanJones/weburl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/DyfanJones/weburl/actions/workflows/R-CMD-check.yaml)
+[![:name status
+badge](https://dyfanjones.r-universe.dev/badges/:name)](https://dyfanjones.r-universe.dev/)
+[![weburl status
+badge](https://dyfanjones.r-universe.dev/badges/weburl)](https://dyfanjones.r-universe.dev/weburl)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/weburl)](https://CRAN.R-project.org/package=weburl)
 <!-- badges: end -->
 
 `{weburl}`wraps the [Rust crate url](https://crates.io/crates/url). This
@@ -19,6 +25,12 @@ You can install the development version of weburl like so:
 if (!requireNamespace("remotes")) install.packages("remotes")
 
 remotes::install_github("dyfanjones/weburl")
+```
+
+r-universe installation:
+
+``` r
+install.packages("weburl", repos = c("https://dyfanjones.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
 ## Example
